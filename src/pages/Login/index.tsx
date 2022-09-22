@@ -11,6 +11,7 @@ import { schemaValidation } from './schemaValidation';
 import { LoginCreators } from '../../store/reducers/auth';
 import { connect, ConnectedProps } from 'react-redux';
 import { FieldValuesLogin } from '../../types/FieldValues';
+import useLoginFields from '../../hooks/useLoginFields';
 
 const mapDispatchToProps = {
   loginRequest: LoginCreators.loginRequest,
@@ -23,7 +24,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 const Login = ({ loginRequest }: PropsFromRedux) => {
   const { goBack } = useNavigation();
 
-  const [viewPassword, setViewPassword] = useState(false);
+  const loginFields = useLoginFields();
 
   const {
     control,
@@ -51,43 +52,23 @@ const Login = ({ loginRequest }: PropsFromRedux) => {
 
       <ContainerLogin>
         <ViewAlignedCenter>
-          <Controller
-            name="email"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <StyledTextInput
-                label="Email"
-                mode="flat"
-                error={!!errors.email}
-                placeholder="Digite seu email..."
-                placeholderTextColor="secondary"
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
-
-          <Controller
-            name="password"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <StyledTextInput
-                label="Senha"
-                mode="flat"
-                placeholder="Digite sua senha..."
-                secureTextEntry={!viewPassword}
-                error={!!errors.password}
-                right={
-                  <TextInput.Icon
-                    icon={viewPassword ? 'eye-off' : 'eye'}
-                    onPress={() => setViewPassword(!viewPassword)}
-                  />
-                }
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
+          {loginFields.map(input => (
+            <Controller
+              key={input.name}
+              name={input.name}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <StyledTextInput
+                  mode="flat"
+                  error={!!errors[input.name]}
+                  placeholderTextColor="secondary"
+                  onChangeText={onChange}
+                  value={value}
+                  {...input}
+                />
+              )}
+            />
+          ))}
 
           <StyledButton
             mode="contained-tonal"

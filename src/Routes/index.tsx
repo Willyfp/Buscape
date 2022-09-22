@@ -28,7 +28,7 @@ const Routes = ({ isAuth }: ReduxProps) => {
 
   return (
     <NavigationContainer>
-      {isAuth ? (
+      {!isAuth ? (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="LandingPage" component={Landing} />
           <Stack.Screen name="RegisterScreen" component={Register} />
