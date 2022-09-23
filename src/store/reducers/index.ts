@@ -4,7 +4,9 @@ import auth from './auth';
 
 import location from './location';
 
-const rootReducer = combineReducers({ auth, location });
+import appartments from './appartments';
+
+const rootReducer = combineReducers({ auth, location, appartments });
 
 export type RootState = ReturnType<typeof rootReducer>;
 

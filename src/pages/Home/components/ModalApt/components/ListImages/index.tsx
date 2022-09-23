@@ -8,7 +8,7 @@ type Props = {
 const ListImages = ({ images }: Props) => {
   return (
     <Carousel showCounter containerStyle={{ width: '100%', margin: 40 }}>
-      {images.map((item) => (
+      {images.map(item => (
         <Image
           key={item.uri}
           style={{ width: '100%', height: 250 }}

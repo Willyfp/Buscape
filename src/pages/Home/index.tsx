@@ -22,8 +22,9 @@ const mapDispatchToProps = {
   getLocation: GetLocationCreators.getCurrentLocationRequest,
 };
 
-const mapStateToProps = ({ location }: RootState) => ({
+const mapStateToProps = ({ location, appartments }: RootState) => ({
   currentLocation: location.getIn(['location']),
+  appartmentsList: appartments.getIn(['list']),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -34,6 +35,7 @@ const Home = ({
   setLocation,
   currentLocation,
   getLocation,
+  appartmentsList,
 }: PropsFromRedux) => {
   const mapRef = useRef<MapView>(null);
 

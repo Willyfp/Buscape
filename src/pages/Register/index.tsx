@@ -6,21 +6,26 @@ import { Appbar, IconButton, TextInput } from 'react-native-paper';
 import { connect, ConnectedProps } from 'react-redux';
 import { themeStyledComponents } from '../../../App';
 import useRegisterFields from '../../hooks/useRegisterFields';
+import { RootState } from '../../store/reducers';
 import { RegisterCreators } from '../../store/reducers/auth';
 import { StyledButton, StyledTextInput, ViewAlignedCenter } from '../../styles';
 import { FieldValuesRegister } from '../../types/FieldValues';
 import { schemaValidation } from './schemaValidation';
 import { ContainerRegister } from './styles';
 
+const mapStateToProps = ({ auth }: RootState) => ({
+  status: auth.getIn(['status']),
+});
+
 const mapDispatchToProps = {
   registerRequest: RegisterCreators.registerRequest,
 };
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const Register = ({ registerRequest }: PropsFromRedux) => {
+const Register = ({ registerRequest, status }: PropsFromRedux) => {
   const { goBack } = useNavigation();
 
   const {
@@ -69,6 +74,7 @@ const Register = ({ registerRequest }: PropsFromRedux) => {
         ))}
 
         <StyledButton
+          loading={status === 'loading'}
           mode="contained-tonal"
           buttonColor="white"
           style={{ marginTop: 25 }}

@@ -17,8 +17,9 @@ type LoginActionType = Action & {
 
 function* loginRequest({ data }: LoginActionType) {
   try {
-    const user: FirebaseAuthTypes.User =
-      yield auth().signInWithEmailAndPassword(data.email, data.password);
+    const user: FirebaseAuthTypes.User = yield auth()
+      .signInWithEmailAndPassword(data.email, data.password)
+      .catch(e => console.log(e));
 
     const userDoc: FirebaseFirestoreTypes.DocumentData = yield firestore()
       .collection('users')

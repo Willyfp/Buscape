@@ -12,16 +12,21 @@ import { LoginCreators } from '../../store/reducers/auth';
 import { connect, ConnectedProps } from 'react-redux';
 import { FieldValuesLogin } from '../../types/FieldValues';
 import useLoginFields from '../../hooks/useLoginFields';
+import { RootState } from '../../store/reducers';
+
+const mapStateToProps = ({ auth }: RootState) => ({
+  status: auth.getIn(['status']),
+});
 
 const mapDispatchToProps = {
   loginRequest: LoginCreators.loginRequest,
 };
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const Login = ({ loginRequest }: PropsFromRedux) => {
+const Login = ({ loginRequest, status }: PropsFromRedux) => {
   const { goBack } = useNavigation();
 
   const loginFields = useLoginFields();
@@ -71,6 +76,7 @@ const Login = ({ loginRequest }: PropsFromRedux) => {
           ))}
 
           <StyledButton
+            loading={status === 'loading'}
             mode="contained-tonal"
             buttonColor="white"
             style={{ width: '100%', marginTop: 25 }}
