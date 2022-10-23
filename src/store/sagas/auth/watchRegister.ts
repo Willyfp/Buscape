@@ -26,7 +26,7 @@ function* registerRequest({ data }: RegisterActionType) {
       .collection('users')
       .doc(String(credential.user.uid));
 
-    const res = doc.set(data);
+    const res = doc.set({ ...data, id: credential.user.uid });
 
     const formattedUser = {
       id: credential.user.uid,
@@ -45,7 +45,7 @@ function* registerRequest({ data }: RegisterActionType) {
     }
 
     if ((error as any).code === 'auth/invalid-email') {
-      console.log('Email inválido!');
+      Alert.alert('Email inválido!');
     }
     yield put(RegisterCreators.registerFailed());
   }

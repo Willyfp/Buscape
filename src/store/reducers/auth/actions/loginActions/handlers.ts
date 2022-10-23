@@ -15,6 +15,12 @@ export const loadUser = (state = INITIAL_STATE_AUTH) =>
 export const loginFailed = (state = INITIAL_STATE_AUTH) =>
   state.set('status', 'failed');
 
+export const logout = (state = INITIAL_STATE_AUTH) =>
+  state.merge({
+    user: {},
+    isAuth: false,
+  });
+
 export const loginSuccess = (
   state = INITIAL_STATE_AUTH,
   { user }: LoginActionType,

@@ -1,18 +1,17 @@
+import { User } from '../store/reducers/auth/types';
+
 export type APType = {
-  id: number;
+  id: string;
   description: string;
   address: string;
+  likes?: User[];
   price: {
     aluguel: number;
     condominio?: number;
     IPTU?: number;
     total: number;
   };
-  comodities: {
-    name: string;
-    quantity: number;
-    icon: string;
-  }[];
+  comodities: string[];
   images: {
     uri: string;
   }[];

@@ -18,13 +18,14 @@ function* loadUser() {
 
       const userDoc: FirebaseFirestoreTypes.DocumentData = yield firestore()
         .collection('users')
-        .doc(user.uid)
+        .doc(user.user.uid)
         .get();
 
+      const realUser = userDoc.data();
+
       const formattedUser = {
-        id: user.uid,
-        email: user.email || '',
-        name: userDoc.name,
+        id: user.user.uid,
+        ...realUser,
       };
       yield put(LoginCreators.loginSuccess(formattedUser));
     } else {

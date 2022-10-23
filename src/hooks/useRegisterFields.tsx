@@ -8,7 +8,7 @@ const useRegisterFields = (): ControllerProps[] => {
 
   const inputs: ControllerProps[] = [
     {
-      name: 'nome',
+      name: 'name',
       label: 'Nome completo',
       placeholder: 'Digite seu nome...',
     },

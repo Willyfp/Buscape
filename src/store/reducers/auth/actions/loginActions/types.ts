@@ -7,6 +7,7 @@ export type LoginActionTypes = {
   LOGIN_SUCCESS: string;
   LOGIN_FAILED: string;
   LOAD_USER: string;
+  LOGOUT: string;
 };
 
 export type LoginActionCreators = {
@@ -14,4 +15,5 @@ export type LoginActionCreators = {
   loginSuccess(user: User): AnyAction;
   loginFailed(): AnyAction;
   loadUser(): AnyAction;
+  logout(): AnyAction;
 };

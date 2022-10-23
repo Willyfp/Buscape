@@ -5,6 +5,11 @@ type RootStackParamList = {
   LoginScreen: undefined;
   HomeScreen: undefined;
   MapScreen: undefined;
+  Perfil: undefined;
+  PersonalInfoScreen: undefined;
+  FavoritesScreen: undefined;
+  HelpScreen: undefined;
+  AboutScreen: undefined;
 };
 
 declare global {

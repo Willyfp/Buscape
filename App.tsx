@@ -22,6 +22,7 @@ export const themeStyledComponents = {
       secondary: '#FFFFFF',
     },
   },
+  dark: false,
 };
 
 const App = () => {

@@ -6,7 +6,9 @@ import location from './location';
 
 import appartments from './appartments';
 
-const rootReducer = combineReducers({ auth, location, appartments });
+import profile from './profile';
+
+const rootReducer = combineReducers({ auth, location, appartments, profile });
 
 export type RootState = ReturnType<typeof rootReducer>;
 

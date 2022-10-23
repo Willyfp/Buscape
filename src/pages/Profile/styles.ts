@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { ViewRowBetween } from 'styles';
 
 export const ProfileView = styled.ScrollView`
   padding: 15px;

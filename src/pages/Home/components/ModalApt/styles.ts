@@ -24,9 +24,14 @@ export const CenteredView = styled.View`
 
 export const ViewTopModal = styled.View`
   width: 100%;
-  align-items: flex-end;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
-export const CloseModal = styled.TouchableOpacity`
-  position: absolute;
+export const ViewFlex = styled.View`
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
 `;

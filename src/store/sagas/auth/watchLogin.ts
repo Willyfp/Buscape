@@ -17,26 +17,26 @@ type LoginActionType = Action & {
 
 function* loginRequest({ data }: LoginActionType) {
   try {
-    const user: FirebaseAuthTypes.User = yield auth()
-      .signInWithEmailAndPassword(data.email, data.password)
-      .catch(e => console.log(e));
+    const user: FirebaseAuthTypes.User =
+      yield auth().signInWithEmailAndPassword(data.email, data.password);
 
     const userDoc: FirebaseFirestoreTypes.DocumentData = yield firestore()
       .collection('users')
-      .doc(user.uid)
+      .doc(user.user.uid)
       .get();
 
+    const realUser = userDoc.data();
+
     const formattedUser = {
-      id: user.uid,
-      email: user.email || '',
-      name: userDoc.name,
+      id: user.user.uid,
+      ...realUser,
     };
 
     yield AsyncStorage.setItem('user', JSON.stringify(data));
 
     yield put(LoginCreators.loginSuccess(formattedUser));
   } catch (error) {
-    Alert.alert(error.message);
+    Alert.alert('Usuário ou senha inválidos!');
     yield put(LoginCreators.loginFailed());
   }
 }

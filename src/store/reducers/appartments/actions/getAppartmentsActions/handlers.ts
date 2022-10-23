@@ -20,3 +20,8 @@ export const getAppartmentsSuccess = (
     status: 'success',
     list: data,
   });
+
+export const selectAppartment = (
+  state = INITIAL_STATE_APPARTMENTS,
+  { data }: GetAppartmentsActionType,
+) => state.set('selected', data);

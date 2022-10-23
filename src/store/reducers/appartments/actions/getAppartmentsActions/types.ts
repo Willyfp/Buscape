@@ -5,10 +5,12 @@ export type GetAppartmentsTypes = {
   GET_APPARTMENTS_REQUEST: string;
   GET_APPARTMENTS_SUCCESS: string;
   GET_APPARTMENTS_FAILED: string;
+  SELECT_APPARTMENT: string;
 };
 
 export type GetAppartmentsCreators = {
   getAppartmentsRequest(): AnyAction;
   getAppartmentsSuccess(data: APType[]): AnyAction;
   getAppartmentsFailed(): AnyAction;
+  selectAppartment(data: APType): AnyAction;
 };

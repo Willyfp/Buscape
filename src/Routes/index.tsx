@@ -12,6 +12,10 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import Chat from '../pages/Chat';
 import Profile from '../pages/Profile';
 import { themeStyledComponents } from '../../App';
+import PersonalInfo from '../pages/Profile/components/PersonalInfo';
+import Favorites from '../pages/Profile/components/Favorites';
+import Help from '../pages/Profile/components/Help';
+import AboutUs from '../pages/Profile/components/AboutUs';
 
 const mapStateToProps = ({ auth }: RootState) => ({
   isAuth: auth.getIn(['isAuth']),
@@ -74,6 +78,42 @@ const Routes = ({ isAuth }: ReduxProps) => {
                 />
               ),
             }}
+          />
+
+          <Tab.Screen
+            options={{
+              tabBarStyle: { display: 'none' },
+              tabBarButton: () => null,
+            }}
+            name="PersonalInfoScreen"
+            component={PersonalInfo}
+          />
+
+          <Tab.Screen
+            options={{
+              tabBarStyle: { display: 'none' },
+              tabBarButton: () => null,
+            }}
+            name="FavoritesScreen"
+            component={Favorites}
+          />
+
+          <Tab.Screen
+            options={{
+              tabBarStyle: { display: 'none' },
+              tabBarButton: () => null,
+            }}
+            name="HelpScreen"
+            component={Help}
+          />
+
+          <Tab.Screen
+            options={{
+              tabBarStyle: { display: 'none' },
+              tabBarButton: () => null,
+            }}
+            name="AboutScreen"
+            component={AboutUs}
           />
         </Tab.Navigator>
       )}

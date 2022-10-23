@@ -6,14 +6,18 @@ import { MaskService } from 'react-native-masked-text';
 import { APType } from '../../../../../../utils/fakeApts';
 import { Text } from 'react-native-paper';
 import { themeStyledComponents } from '../../../../../../../App';
+import { useTheme } from 'styled-components';
+import { iconsName } from '../../../../../../utils/constants';
 
 type Props = {
   apartamento: APType;
 };
 
 const AboutApt = ({ apartamento }: Props) => {
+  const { colors } = useTheme();
+
   return (
-    <View style={{ width: '100%', alignItems: 'flex-start' }}>
+    <>
       <Text
         style={{
           color: themeStyledComponents.colors.text.primary,
@@ -35,52 +39,22 @@ const AboutApt = ({ apartamento }: Props) => {
 
       <ViewComodities>
         {apartamento.comodities.map(item => (
-          <View style={{ alignItems: 'center' }} key={item.name}>
+          <View style={{ alignItems: 'center' }} key={item}>
             <FontAwesome5Icon
-              name={item.icon}
-              size={20}
-              color={themeStyledComponents.colors.primary}
+              name={iconsName(item)}
+              size={14}
+              color={colors.primary}
             />
             <Text
               style={{
                 color: themeStyledComponents.colors.text.primary,
               }}
             >
-              {item.quantity}
-            </Text>
-            <Text
-              style={{
-                color: themeStyledComponents.colors.text.primary,
-              }}
-            >
-              {item.name}
+              {item}
             </Text>
           </View>
         ))}
       </ViewComodities>
-
-      <ViewPrice>
-        <Text
-          style={{
-            color: themeStyledComponents.colors.text.primary,
-          }}
-        >
-          Aluguel
-        </Text>
-        <Text
-          style={{
-            color: themeStyledComponents.colors.text.primary,
-          }}
-        >
-          {MaskService.toMask('money', apartamento.price.aluguel, {
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            unit: 'R$',
-            suffixUnit: '',
-          })}
-        </Text>
-      </ViewPrice>
 
       {Object.entries(apartamento.price).map(([name, value]) => {
         if (name !== 'aluguel' && name !== 'total')
@@ -98,43 +72,23 @@ const AboutApt = ({ apartamento }: Props) => {
                   color: themeStyledComponents.colors.text.primary,
                 }}
               >
-                {MaskService.toMask('money', value, {
-                  precision: 2,
-                  separator: ',',
-                  delimiter: '.',
-                  unit: 'R$',
-                  suffixUnit: '',
-                })}
+                {MaskService.toMask(
+                  'money',
+                  (value + '00').replace(/\D/g, ''),
+                  {
+                    precision: 2,
+                    separator: ',',
+                    delimiter: '.',
+                    unit: 'R$',
+                    suffixUnit: '',
+                  },
+                )}
+                {name.toLowerCase() === 'venda' && '/m²'}
               </Text>
             </ViewPrice>
           );
       })}
-
-      <Divider />
-
-      <ViewPrice>
-        <Text
-          style={{
-            color: themeStyledComponents.colors.text.primary,
-          }}
-        >
-          Total
-        </Text>
-        <Text
-          style={{
-            color: themeStyledComponents.colors.text.primary,
-          }}
-        >
-          {MaskService.toMask('money', apartamento.price.total, {
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            unit: 'R$',
-            suffixUnit: '',
-          })}
-        </Text>
-      </ViewPrice>
-    </View>
+    </>
   );
 };
 

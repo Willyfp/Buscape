@@ -6,9 +6,10 @@ import { ActivityIndicator, IconButton } from 'react-native-paper';
 import { connect, ConnectedProps } from 'react-redux';
 import { themeStyledComponents } from '../../../App';
 import { RootState } from '../../store/reducers';
+import { GetAppartmentsCreators } from '../../store/reducers/appartments';
 import { GetLocationCreators } from '../../store/reducers/location';
 import { API_MAPS_KEY, images } from '../../utils/constants';
-import { apartamentos, APType } from '../../utils/fakeApts';
+import { APType } from '../../utils/fakeApts';
 import { LATITUDE_DELTA, LONGITUDE_DELTA } from '../../utils/location';
 import ModalApt from './components/ModalApt';
 import { HouseIcon, StyledMap, stylesMap } from './styles';
@@ -20,6 +21,7 @@ type StateType = {
 const mapDispatchToProps = {
   setLocation: GetLocationCreators.setLocation,
   getLocation: GetLocationCreators.getCurrentLocationRequest,
+  selectAppartment: GetAppartmentsCreators.selectAppartment,
 };
 
 const mapStateToProps = ({ location, appartments }: RootState) => ({
@@ -33,18 +35,14 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const Home = ({
   setLocation,
+  selectAppartment,
   currentLocation,
   getLocation,
   appartmentsList,
 }: PropsFromRedux) => {
   const mapRef = useRef<MapView>(null);
 
-  const [modalApt, setModalApt] = useState<{ visible: boolean; apart: APType }>(
-    {
-      visible: false,
-      apart: {} as APType,
-    },
-  );
+  const [modalApt, setModalApt] = useState<boolean>(false);
 
   const [state, setState] = useState<StateType>({
     onMapReady: false,
@@ -74,11 +72,14 @@ const Home = ({
               <HouseIcon source={{ uri: images.houseIcon }} />
             </Marker>
 
-            {apartamentos.map(item => (
+            {appartmentsList.map(item => (
               <Marker
                 coordinate={item.coords}
-                key={item.id}
-                onPress={() => setModalApt({ visible: true, apart: item })}
+                key={item.address}
+                onPress={() => {
+                  selectAppartment(item as any);
+                  setModalApt(true);
+                }}
               />
             ))}
           </StyledMap>
@@ -119,12 +120,7 @@ const Home = ({
         <ActivityIndicator />
       )}
 
-      <ModalApt
-        {...modalApt}
-        onRequestClose={() =>
-          setModalApt({ visible: false, apart: {} as APType })
-        }
-      />
+      <ModalApt visible={modalApt} onRequestClose={() => setModalApt(false)} />
     </>
   );
 };
