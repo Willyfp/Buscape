@@ -7,8 +7,6 @@ type Props = {
 };
 
 const ListImages = ({ images }: Props) => {
-  console.log(images);
-
   return (
     <Carousel showCounter containerStyle={{ width: '100%', margin: 40 }}>
       {!isEmpty(images) ? (

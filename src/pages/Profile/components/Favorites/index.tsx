@@ -1,11 +1,39 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { Appbar } from 'react-native-paper';
+import React, { Fragment, useState } from 'react';
+import { Appbar, Divider, List } from 'react-native-paper';
+import { connect, ConnectedProps } from 'react-redux';
 import { useTheme } from 'styled-components';
+import { RootState } from '../../../../store/reducers';
+import { Image } from 'react-native-ui-lib';
+import ModalApt from '../../../Home/components/ModalApt';
+import { GetAppartmentsCreators } from '../../../../store/reducers/appartments';
 
-const Favorites = () => {
+const mapStateToProps = ({ auth, appartments }: RootState) => ({
+  user: auth.getIn(['user']),
+  appartmentsList: appartments.getIn(['list']),
+});
+
+const mapDispatchToProps = {
+  selectAppartment: GetAppartmentsCreators.selectAppartment,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const Favorites = ({
+  user,
+  appartmentsList,
+  selectAppartment,
+}: PropsFromRedux) => {
   const { colors } = useTheme();
   const { navigate } = useNavigation();
+
+  const [modalApt, setModalApt] = useState<boolean>(false);
+
+  const appartmentsFavorites = appartmentsList.filter(apart =>
+    user.favorites?.includes(apart.id),
+  );
 
   return (
     <>
@@ -22,8 +50,36 @@ const Favorites = () => {
           titleStyle={{ color: colors.text.primary }}
         />
       </Appbar.Header>
+
+      <List.Section style={{ paddingHorizontal: 16 }}>
+        {appartmentsFavorites.map(apart => (
+          <Fragment key={apart.id}>
+            <List.Item
+              onPress={() => {
+                selectAppartment(apart as any);
+                setModalApt(true);
+              }}
+              title={apart.address}
+              description={apart.description}
+              left={() => (
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={{
+                    uri:
+                      apart.images?.[0].uri ||
+                      'https://th.bing.com/th/id/OIP.hV6MoBaE8NYeMCugmhd7_QHaEo?w=288&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+                  }}
+                />
+              )}
+            />
+            <Divider />
+          </Fragment>
+        ))}
+      </List.Section>
+
+      <ModalApt visible={modalApt} onRequestClose={() => setModalApt(false)} />
     </>
   );
 };
 
-export default Favorites;
+export default connector(Favorites);

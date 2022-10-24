@@ -85,7 +85,6 @@ function* likeAppartment({ appartmentID }: Props) {
     yield put(GetAppartmentsCreators.getAppartmentsRequest());
     yield put(LikeAppartmentCreators.likeAppartmentSuccess());
   } catch (error) {
-    console.log(error);
     yield put(LikeAppartmentCreators.likeAppartmentFailed());
   }
 }

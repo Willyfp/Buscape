@@ -12,6 +12,7 @@ export type User = {
   id: string;
   photo?: string;
   myCaracteristics?: string[];
+  description?: string;
 };
 
 export type InitialStateAuthType = {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Divider, List, Text } from 'react-native-paper';
 import { Avatar, Modal, ModalProps } from 'react-native-ui-lib';
@@ -6,12 +6,15 @@ import { themeStyledComponents } from '../../../../../../../App';
 import { CenteredView, ViewModal, ViewTopModal } from '../../styles';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { User } from '../../../../../../store/reducers/auth/types';
+import { ProfileOtherPeople } from '../ProfileOtherPeople';
 
 export const LikesList = ({
   visible,
   onRequestClose,
   likes,
 }: ModalProps & { likes: User[] }) => {
+  const [profile, setProfile] = useState({ visible: false, user: {} as User });
+
   return (
     <Modal
       animationType="slide"
@@ -52,8 +55,11 @@ export const LikesList = ({
           </List.Subheader>
           <List.Section style={{ width: '100%' }}>
             {likes.map(item => (
-              <>
+              <Fragment key={item.id}>
                 <List.Item
+                  onPress={() => {
+                    setProfile({ visible: true, user: item });
+                  }}
                   title={likes[0]?.name}
                   titleStyle={{
                     color: themeStyledComponents.colors.text.primary,
@@ -70,11 +76,16 @@ export const LikesList = ({
                   )}
                 />
                 <Divider />
-              </>
+              </Fragment>
             ))}
           </List.Section>
         </ViewModal>
       </CenteredView>
+
+      <ProfileOtherPeople
+        {...profile}
+        onRequestClose={() => setProfile({ visible: false, user: {} as User })}
+      />
     </Modal>
   );
 };

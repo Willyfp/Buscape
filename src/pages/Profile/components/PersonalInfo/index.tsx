@@ -12,7 +12,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { User } from '../../../../store/reducers/auth/types';
 import { ProfileCreators } from '../../../../store/reducers/profile';
 import { characteristics } from './utils';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 const mapStateToProps = ({ auth, profile }: RootState) => ({
   user: auth.getIn(['user']),
@@ -68,155 +68,174 @@ const PersonalInfo = ({ user, editProfile, status }: PropsFromRedux) => {
         />
       </Appbar.Header>
 
-      <ViewAlignedCenter style={{ padding: 24, flex: 1 }}>
-        <Controller
-          name="name"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              style={{ width: '100%' }}
-              floatingPlaceholder
-              label="Nome completo"
-              placeholder="Nome completo"
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-
-        <Controller
-          name="phone"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              style={{ width: '100%' }}
-              floatingPlaceholder
-              label="Número de telefone"
-              placeholder="Telefone"
-              keyboardType="phone-pad"
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-
-        <Controller
-          name="cpfCnpj"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              style={{ width: '100%' }}
-              floatingPlaceholder
-              label="CPF/CNPJ"
-              placeholder="CPF/CNPJ"
-              keyboardType="phone-pad"
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-
-        <Controller
-          name="birthDate"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <DateTimePicker
-              dateFormat={'DD/MM/YYYY'}
-              title={'Data de nascimento'}
-              placeholder={'DD/MM/AAAA'}
-              mode={'date'}
-              style={{ width: '100%' }}
-              onChange={onChange}
-              value={value}
-            />
-          )}
-        />
-
-        <Controller
-          name="photo"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              style={{ width: '100%' }}
-              floatingPlaceholder
-              placeholder="Foto do perfil"
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
-
-        <ViewGender>
-          <Text
-            style={{
-              color: colors.text.primary,
-              fontSize: 20,
-              fontWeight: 'bold',
-            }}
-          >
-            Gênero
-          </Text>
-
-          <ViewRow>
-            <ViewRow style={{ marginRight: 16 }}>
-              <RadioButton
-                value="Masculino"
-                status={
-                  watch('gender') === 'Masculino' ? 'checked' : 'unchecked'
-                }
-                onPress={() => setValue('gender', 'Masculino')}
+      <ScrollView>
+        <ViewAlignedCenter style={{ padding: 24, flex: 1 }}>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                style={{ width: '100%' }}
+                floatingPlaceholder
+                label="Nome completo"
+                placeholder="Nome completo"
+                onChangeText={onChange}
+                value={value}
               />
-              <Text style={{ color: colors.text.primary }}>Masculino</Text>
-            </ViewRow>
+            )}
+          />
+
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                style={{ width: '100%' }}
+                floatingPlaceholder
+                label="Número de telefone"
+                placeholder="Telefone"
+                keyboardType="phone-pad"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <Controller
+            name="cpfCnpj"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                style={{ width: '100%' }}
+                floatingPlaceholder
+                label="CPF/CNPJ"
+                placeholder="CPF/CNPJ"
+                keyboardType="phone-pad"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <Controller
+            name="birthDate"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <DateTimePicker
+                dateFormat={'DD/MM/YYYY'}
+                title={'Data de nascimento'}
+                placeholder={'DD/MM/AAAA'}
+                mode={'date'}
+                style={{ width: '100%' }}
+                onChange={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <Controller
+            name="description"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                multiline
+                maxLength={150}
+                showCharacterCounter
+                style={{ width: '100%' }}
+                floatingPlaceholder
+                placeholder="Descrição"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <Controller
+            name="photo"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                style={{ width: '100%' }}
+                floatingPlaceholder
+                placeholder="Foto do perfil"
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+
+          <ViewGender>
+            <Text
+              style={{
+                color: colors.text.primary,
+                fontSize: 20,
+                fontWeight: 'bold',
+              }}
+            >
+              Gênero
+            </Text>
 
             <ViewRow>
-              <RadioButton
-                value="Feminino"
-                status={
-                  watch('gender') === 'Feminino' ? 'checked' : 'unchecked'
-                }
-                onPress={() => setValue('gender', 'Feminino')}
-              />
-              <Text style={{ color: colors.text.primary }}>Feminino</Text>
+              <ViewRow style={{ marginRight: 16 }}>
+                <RadioButton
+                  value="Masculino"
+                  status={
+                    watch('gender') === 'Masculino' ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setValue('gender', 'Masculino')}
+                />
+                <Text style={{ color: colors.text.primary }}>Masculino</Text>
+              </ViewRow>
+
+              <ViewRow>
+                <RadioButton
+                  value="Feminino"
+                  status={
+                    watch('gender') === 'Feminino' ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setValue('gender', 'Feminino')}
+                />
+                <Text style={{ color: colors.text.primary }}>Feminino</Text>
+              </ViewRow>
             </ViewRow>
-          </ViewRow>
-        </ViewGender>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}
-        >
-          {characteristics.map(item => (
-            <Chip
-              onPress={() =>
-                watch('myCaracteristics')?.find(subItem => subItem === item)
-                  ? setValue(
-                      'myCaracteristics',
-                      watch('myCaracteristics')?.filter(
-                        subItem => subItem !== item,
-                      ),
-                    )
-                  : setValue(
-                      'myCaracteristics',
-                      watch('myCaracteristics')?.length > 0
-                        ? [...watch('myCaracteristics'), item]
-                        : [item],
-                    )
-              }
-              selected={
-                !!watch('myCaracteristics')?.find(subItem => subItem === item)
-              }
-              style={{ margin: 2, height: 45 }}
-              key={item}
-            >
-              {item}
-            </Chip>
-          ))}
-        </View>
-      </ViewAlignedCenter>
+          </ViewGender>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
+            {characteristics.map(item => (
+              <Chip
+                onPress={() =>
+                  watch('myCaracteristics')?.find(subItem => subItem === item)
+                    ? setValue(
+                        'myCaracteristics',
+                        watch('myCaracteristics')?.filter(
+                          subItem => subItem !== item,
+                        ),
+                      )
+                    : setValue(
+                        'myCaracteristics',
+                        watch('myCaracteristics')?.length > 0
+                          ? [...watch('myCaracteristics'), item]
+                          : [item],
+                      )
+                }
+                selected={
+                  !!watch('myCaracteristics')?.find(subItem => subItem === item)
+                }
+                style={{ margin: 2, height: 45 }}
+                key={item}
+              >
+                {item}
+              </Chip>
+            ))}
+          </View>
+        </ViewAlignedCenter>
+      </ScrollView>
 
       <ViewAlignedCenter style={{ padding: 24 }}>
         <StyledButton

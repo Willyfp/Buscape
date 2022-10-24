@@ -16,6 +16,9 @@ import ListImages from './components/ListImages';
 import { CenteredView, ViewFlex, ViewModal, ViewTopModal } from './styles';
 import { isEmpty } from 'lodash';
 import { LikesList } from './components/LikesList';
+import { verifyMatches } from './utils';
+import { User } from '../../../../store/reducers/auth/types';
+import { ModalMatch } from './ModalMatch';
 
 const mapStateToProps = ({ auth, appartments }: RootState) => ({
   user: auth.getIn(['user']),
@@ -42,6 +45,12 @@ const ModalApt = ({
     likes: [],
   });
 
+  const [modalMatch, setModalMatch] = React.useState({
+    visible: false,
+    user: {} as User,
+    matchedUser: {} as User,
+  });
+
   return (
     <Modal
       animationType="slide"
@@ -53,7 +62,25 @@ const ModalApt = ({
         <ViewModal>
           <ViewTopModal>
             <ViewRow>
-              <TouchableOpacity onPress={() => likeAppartment(apart.id)}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (!user.favorites?.find(id => id === apart.id)) {
+                    const matchedUser = verifyMatches(
+                      user as User,
+                      apart.likes,
+                    );
+
+                    if (matchedUser) {
+                      setModalMatch({
+                        visible: true,
+                        user,
+                        matchedUser,
+                      });
+                    }
+                  }
+                  likeAppartment(apart.id);
+                }}
+              >
                 <FontAwesome5Icon
                   name="heart"
                   size={30}
@@ -75,10 +102,10 @@ const ModalApt = ({
               >
                 {apart?.likes?.length > 0
                   ? apart.likes.length > 2
-                    ? `${apart.likes[0].name.split(' ')[0]}, ${
-                        apart.likes[1].name.split(' ')[0]
-                      } +${apart.likes.length - 2}`
-                    : apart.likes.length
+                    ? `${apart.likes[0].name.split(' ')[0]} + ${
+                        apart.likes.length - 1
+                      }`
+                    : apart.likes[0].name.split(' ')[0]
                   : 0}
               </Text>
             </ViewRow>
@@ -111,7 +138,6 @@ const ModalApt = ({
                 </StyledButton>
                 <StyledButton
                   mode="contained"
-                  Z
                   icon="open-in-new"
                   onPress={() => Linking.openURL(apart.link)}
                 >
@@ -128,6 +154,17 @@ const ModalApt = ({
       <LikesList
         {...modalLikes}
         onRequestClose={() => setModalLikes({ visible: false, likes: [] })}
+      />
+
+      <ModalMatch
+        {...modalMatch}
+        onRequestClose={() =>
+          setModalMatch({
+            visible: false,
+            user: {} as User,
+            matchedUser: {} as User,
+          })
+        }
       />
     </Modal>
   );
