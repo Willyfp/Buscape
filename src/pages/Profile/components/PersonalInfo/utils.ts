@@ -4,4 +4,13 @@ export const characteristics = [
   'Tem animais',
   'Tem filhos',
   'Gamer',
+  'Estuda',
+  'Trabalha',
+  'HomeOffice',
+  'Visitas frequentes',
+  'Festeira',
+  'Barulhenta',
+  'Bagunçada',
+  'Organizada',
+  'Deficiente',
 ];

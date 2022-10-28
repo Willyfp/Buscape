@@ -18,7 +18,7 @@ import { isEmpty } from 'lodash';
 import { LikesList } from './components/LikesList';
 import { verifyMatches } from './utils';
 import { User } from '../../../../store/reducers/auth/types';
-import { ModalMatch } from './ModalMatch';
+import ModalMatch from './ModalMatch';
 
 const mapStateToProps = ({ auth, appartments }: RootState) => ({
   user: auth.getIn(['user']),
@@ -97,15 +97,18 @@ const ModalApt = ({
                 }}
                 onPress={() =>
                   apart?.likes?.length > 0 &&
-                  setModalLikes({ visible: true, likes: apart.likes })
+                  setModalLikes({
+                    visible: true,
+                    likes: apart.likes.filter(item => item.id !== user.id),
+                  })
                 }
               >
                 {apart?.likes?.length > 0
-                  ? apart.likes.length > 2
-                    ? `${apart.likes[0].name.split(' ')[0]} + ${
+                  ? apart.likes.length >= 2
+                    ? `${apart.likes[0]?.name?.split(' ')[0]} +${
                         apart.likes.length - 1
                       }`
-                    : apart.likes[0].name.split(' ')[0]
+                    : apart.likes[0]?.name?.split(' ')[0]
                   : 0}
               </Text>
             </ViewRow>

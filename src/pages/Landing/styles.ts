@@ -9,7 +9,6 @@ export const ContainerLanding = styled.View`
 `;
 
 export const Logo = styled.Image`
-  margin-top: 20px;
   height: 150px;
   width: 150px;
 `;

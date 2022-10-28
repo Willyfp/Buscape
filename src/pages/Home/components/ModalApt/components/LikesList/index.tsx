@@ -6,7 +6,7 @@ import { themeStyledComponents } from '../../../../../../../App';
 import { CenteredView, ViewModal, ViewTopModal } from '../../styles';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { User } from '../../../../../../store/reducers/auth/types';
-import { ProfileOtherPeople } from '../ProfileOtherPeople';
+import ProfileOtherPeople from '../ProfileOtherPeople';
 
 export const LikesList = ({
   visible,
@@ -60,7 +60,7 @@ export const LikesList = ({
                   onPress={() => {
                     setProfile({ visible: true, user: item });
                   }}
-                  title={likes[0]?.name}
+                  title={item?.name}
                   titleStyle={{
                     color: themeStyledComponents.colors.text.primary,
                   }}
@@ -69,7 +69,7 @@ export const LikesList = ({
                       size={50}
                       source={{
                         uri:
-                          likes[0]?.photo ||
+                          item?.photo ||
                           'https://th.bing.com/th/id/OIP.o7G8MHM0THDO9Npw9_69cAAAAA?pid=ImgDet&rs=1',
                       }}
                     />

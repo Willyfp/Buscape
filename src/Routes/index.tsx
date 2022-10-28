@@ -16,6 +16,8 @@ import PersonalInfo from '../pages/Profile/components/PersonalInfo';
 import Favorites from '../pages/Profile/components/Favorites';
 import Help from '../pages/Profile/components/Help';
 import AboutUs from '../pages/Profile/components/AboutUs';
+import { navigationRef } from './RootNavigation';
+import Message from '../pages/Chat/components/Message';
 
 const mapStateToProps = ({ auth }: RootState) => ({
   isAuth: auth.getIn(['isAuth']),
@@ -31,7 +33,7 @@ const Routes = ({ isAuth }: ReduxProps) => {
   const Tab = createBottomTabNavigator();
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       {!isAuth ? (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="LandingPage" component={Landing} />
@@ -114,6 +116,14 @@ const Routes = ({ isAuth }: ReduxProps) => {
             }}
             name="AboutScreen"
             component={AboutUs}
+          />
+          <Tab.Screen
+            options={{
+              tabBarStyle: { display: 'none' },
+              tabBarButton: () => null,
+            }}
+            name="MessageScreen"
+            component={Message}
           />
         </Tab.Navigator>
       )}

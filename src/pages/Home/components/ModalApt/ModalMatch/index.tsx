@@ -3,19 +3,30 @@ import { TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 import { Avatar, Modal, ModalProps } from 'react-native-ui-lib';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { connect, ConnectedProps } from 'react-redux';
 import { themeStyledComponents } from '../../../../../../App';
 import { User } from '../../../../../store/reducers/auth/types';
 import { StyledButton } from '../../../../../styles';
+import { createChat } from '../../../../../utils/chat';
 import { ViewRow } from '../../../../Profile/components/PersonalInfo/styles';
-import { ProfileOtherPeople } from '../components/ProfileOtherPeople';
+import ProfileOtherPeople from '../components/ProfileOtherPeople';
 import { CenteredView, ViewFlex, ViewModal, ViewTopModal } from '../styles';
 
-export const ModalMatch = ({
+const mapStateToProps = ({ auth }: RootState) => ({
+  myUser: auth.getIn(['user']),
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const ModalMatch = ({
   visible,
   onRequestClose,
   user,
   matchedUser,
-}: ModalProps & { user: User; matchedUser: User }) => {
+  myUser,
+}: ModalProps & PropsFromRedux & { user: User; matchedUser: User }) => {
   const [profile, setProfile] = React.useState({
     visible: false,
     user: {} as User,
@@ -92,6 +103,10 @@ export const ModalMatch = ({
               style={{ marginTop: 30, fontWeight: 'bold' }}
               mode="outlined"
               icon="message"
+              onPress={() => {
+                createChat({ userID: myUser.id, receiverID: user.id as any });
+                onRequestClose();
+              }}
             >
               Enviar mensagem
             </StyledButton>
@@ -115,3 +130,5 @@ export const ModalMatch = ({
     </Modal>
   );
 };
+
+export default connector(ModalMatch);

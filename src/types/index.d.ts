@@ -10,6 +10,11 @@ type RootStackParamList = {
   FavoritesScreen: undefined;
   HelpScreen: undefined;
   AboutScreen: undefined;
+  MessageScreen: {
+    userID: string;
+    receiverID: string;
+  };
+  Chat: undefined;
 };
 
 declare global {
