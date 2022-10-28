@@ -141,7 +141,7 @@ const Message = ({ route }) => {
 
       <ScrollView ref={refBody} contentContainerStyle={{ padding: 24 }}>
         {messages.map(message => {
-          const date = new Date(message?.timestamp.seconds * 1000);
+          const date = new Date(message?.timestamp?.seconds * 1000);
 
           const dateFormated = `${
             date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
@@ -161,6 +161,7 @@ const Message = ({ route }) => {
                 width: '100%',
                 alignItems: message.user === userID ? 'flex-end' : 'flex-start',
               }}
+              key={message.key}
             >
               <View
                 style={{
@@ -171,7 +172,6 @@ const Message = ({ route }) => {
                   borderRadius: 12,
                   maxWidth: '60%',
                 }}
-                key={message.key}
               >
                 <Text style={{ fontSize: 16 }}>{message.message}</Text>
                 <Text style={{ fontSize: 12, color: '#00000065' }}>
