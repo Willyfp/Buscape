@@ -140,27 +140,47 @@ const Message = ({ route }) => {
       </Appbar.Header>
 
       <ScrollView ref={refBody} contentContainerStyle={{ padding: 24 }}>
-        {messages.map(message => (
-          <View
-            style={{
-              width: '100%',
-              alignItems: message.user === userID ? 'flex-end' : 'flex-start',
-            }}
-          >
+        {messages.map(message => {
+          const date = new Date(message?.timestamp.seconds * 1000);
+
+          const dateFormated = `${
+            date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+          }/${
+            date.getMonth() + 1 < 10
+              ? '0' + date.getMonth() + 1
+              : date.getMonth() + 1
+          }/${date.getFullYear()}  ${
+            date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+          }:${
+            date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+          }`;
+
+          return (
             <View
               style={{
-                padding: 12,
-                backgroundColor:
-                  message.user === userID ? '#61A2DA95' : colors.border,
-                marginBottom: 12,
-                borderRadius: 12,
-                maxWidth: '60%',
+                width: '100%',
+                alignItems: message.user === userID ? 'flex-end' : 'flex-start',
               }}
             >
-              <Text>{message.message}</Text>
+              <View
+                style={{
+                  padding: 12,
+                  backgroundColor:
+                    message.user === userID ? '#61A2DA95' : colors.border,
+                  marginBottom: 12,
+                  borderRadius: 12,
+                  maxWidth: '60%',
+                }}
+                key={message.key}
+              >
+                <Text style={{ fontSize: 16 }}>{message.message}</Text>
+                <Text style={{ fontSize: 12, color: '#00000065' }}>
+                  {dateFormated}
+                </Text>
+              </View>
             </View>
-          </View>
-        ))}
+          );
+        })}
       </ScrollView>
 
       <ViewRowBetween
