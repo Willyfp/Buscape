@@ -1,13 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { Divider, ViewComodities, ViewPrice } from './styles';
 import { MaskService } from 'react-native-masked-text';
-import { APType } from '../../../../../../utils/fakeApts';
 import { Text } from 'react-native-paper';
-import { themeStyledComponents } from '../../../../../../../App';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTheme } from 'styled-components';
+import { themeStyledComponents } from '../../../../../../../App';
 import { iconsName } from '../../../../../../utils/constants';
+import { APType } from '../../../../../../utils/fakeApts';
+import { ViewComodities, ViewPrice } from './styles';
 
 type Props = {
   apartamento: APType;
@@ -38,7 +38,7 @@ const AboutApt = ({ apartamento }: Props) => {
       </Text>
 
       <ViewComodities>
-        {apartamento.comodities.map(item => (
+        {apartamento.comodities?.map(item => (
           <View style={{ alignItems: 'center' }} key={item}>
             <FontAwesome5Icon
               name={iconsName(item)}
@@ -56,38 +56,42 @@ const AboutApt = ({ apartamento }: Props) => {
         ))}
       </ViewComodities>
 
-      {Object.entries(apartamento.price).map(([name, value]) => {
-        if (name !== 'aluguel' && name !== 'total')
-          return (
-            <ViewPrice key={name}>
-              <Text
-                style={{
-                  color: themeStyledComponents.colors.text.primary,
-                }}
-              >
-                {name}
-              </Text>
-              <Text
-                style={{
-                  color: themeStyledComponents.colors.text.primary,
-                }}
-              >
-                {MaskService.toMask(
-                  'money',
-                  (value + '00').replace(/\D/g, ''),
-                  {
-                    precision: 2,
-                    separator: ',',
-                    delimiter: '.',
-                    unit: 'R$',
-                    suffixUnit: '',
-                  },
-                )}
-                {name.toLowerCase() === 'venda' && '/m²'}
-              </Text>
-            </ViewPrice>
-          );
-      })}
+      {apartamento.price &&
+        Object.entries(apartamento.price).map(([name, value]) => {
+          if (name !== 'aluguel' && name !== 'total') {
+            return (
+              <ViewPrice key={name}>
+                <Text
+                  style={{
+                    color: themeStyledComponents.colors.text.primary,
+                  }}
+                >
+                  {name}
+                </Text>
+                <Text
+                  style={{
+                    color: themeStyledComponents.colors.text.primary,
+                  }}
+                >
+                  {MaskService.toMask(
+                    'money',
+                    (value + '00').replace(/\D/g, ''),
+                    {
+                      precision: 2,
+                      separator: ',',
+                      delimiter: '.',
+                      unit: 'R$',
+                      suffixUnit: '',
+                    },
+                  )}
+                  {name.toLowerCase() === 'venda' && '/m²'}
+                </Text>
+              </ViewPrice>
+            );
+          }
+
+          return null;
+        })}
     </>
   );
 };

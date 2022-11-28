@@ -1,6 +1,6 @@
+import isEmpty from 'lodash/isEmpty';
 import React from 'react';
 import { Carousel, Image } from 'react-native-ui-lib';
-import isEmpty from 'lodash/isEmpty';
 
 type Props = {
   images: { uri: string }[];

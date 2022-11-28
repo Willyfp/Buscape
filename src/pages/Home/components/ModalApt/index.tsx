@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import React from 'react';
 import { Linking, ModalProps, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
@@ -7,18 +8,16 @@ import { connect, ConnectedProps } from 'react-redux';
 import { themeStyledComponents } from '../../../../../App';
 import { RootState } from '../../../../store/reducers';
 import { LikeAppartmentCreators } from '../../../../store/reducers/appartments';
+import { User } from '../../../../store/reducers/auth/types';
 import { StyledButton } from '../../../../styles';
 import { APType } from '../../../../utils/fakeApts';
 import { openNavigation } from '../../../../utils/location';
 import { ViewRow } from '../../../Profile/components/PersonalInfo/styles';
 import AboutApt from './components/AboutApt';
-import ListImages from './components/ListImages';
-import { CenteredView, ViewFlex, ViewModal, ViewTopModal } from './styles';
-import { isEmpty } from 'lodash';
 import { LikesList } from './components/LikesList';
-import { verifyMatches } from './utils';
-import { User } from '../../../../store/reducers/auth/types';
+import ListImages from './components/ListImages';
 import ModalMatch from './ModalMatch';
+import { CenteredView, ViewFlex, ViewModal, ViewTopModal } from './styles';
 
 const mapStateToProps = ({ auth, appartments }: RootState) => ({
   user: auth.getIn(['user']),
@@ -64,20 +63,20 @@ const ModalApt = ({
             <ViewRow>
               <TouchableOpacity
                 onPress={() => {
-                  if (!user.favorites?.find(id => id === apart.id)) {
-                    const matchedUser = verifyMatches(
-                      user as User,
-                      apart.likes,
-                    );
+                  // if (!user.favorites?.find(id => id === apart.id)) {
+                  //   const matchedUser = verifyMatches(
+                  //     user as User,
+                  //     apart.likes,
+                  //   );
 
-                    if (matchedUser) {
-                      setModalMatch({
-                        visible: true,
-                        user,
-                        matchedUser,
-                      });
-                    }
-                  }
+                  //   if (matchedUser) {
+                  //     setModalMatch({
+                  //       visible: true,
+                  //       user,
+                  //       matchedUser,
+                  //     });
+                  //   }
+                  // }
                   likeAppartment(apart.id);
                 }}
               >

@@ -1,18 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { ScrollView, View } from 'react-native';
 import { Appbar, Chip, RadioButton, Text } from 'react-native-paper';
 import { DateTimePicker, TextField } from 'react-native-ui-lib';
-import { useTheme } from 'styled-components';
-import { ViewAlignedCenter } from '../../../../styles';
-import { ViewGender, ViewRow } from './styles';
-import { StyledButton } from '../../../../styles/';
-import { useForm, Controller } from 'react-hook-form';
-import { RootState } from '../../../../store/reducers';
 import { connect, ConnectedProps } from 'react-redux';
+import { useTheme } from 'styled-components';
+import { RootState } from '../../../../store/reducers';
 import { User } from '../../../../store/reducers/auth/types';
 import { ProfileCreators } from '../../../../store/reducers/profile';
+import { ViewAlignedCenter } from '../../../../styles';
+import { StyledButton } from '../../../../styles/';
+import { ViewGender, ViewRow } from './styles';
 import { characteristics } from './utils';
-import { ScrollView, View } from 'react-native';
 
 const mapStateToProps = ({ auth, profile }: RootState) => ({
   user: auth.getIn(['user']),
@@ -227,7 +227,7 @@ const PersonalInfo = ({ user, editProfile, status }: PropsFromRedux) => {
                 selected={
                   !!watch('myCaracteristics')?.find(subItem => subItem === item)
                 }
-                style={{ margin: 2, height: 45 }}
+                style={{ margin: 2, height: 45, width: '48%' }}
                 key={item}
               >
                 {item}
